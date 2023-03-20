@@ -1,5 +1,7 @@
 package u03
 
+import scala.annotation.tailrec
+
 object Lists extends App :
 
   // A generic linkedlist
@@ -22,11 +24,18 @@ object Lists extends App :
       case Cons(_, t) => filter(t)(pred)
       case Nil() => Nil()
     // Svolto con Pirazzoli
+    @tailrec
     def drop[A](l: List[A], n: Int): List[A] = (l, n) match
-      case (Nil(), n) => Nil()
-      case (Cons(h, t), 1) => t
-      case (Cons(h, t), n) => drop(t, n-1)
+      case (Nil(), _) => Nil()
+      case (Cons(_, t), 1) => t
+      case (Cons(_, t), n) => drop(t, n-1)
 
+    def append[A](left: List[A], right: List[A]): List[A] = (left, right) match
+      case (Nil(), Nil()) => Nil() 
+      case (_, Nil()) => left
+      case (Nil(), _) => right
+      case _ => ???
+      
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
 
