@@ -31,10 +31,10 @@ object Lists extends App :
       case (Cons(_, t), n) => drop(t, n-1)
 
     def append[A](left: List[A], right: List[A]): List[A] = (left, right) match
-      case (Nil(), Nil()) => Nil() 
       case (_, Nil()) => left
       case (Nil(), _) => right
-      case _ => ???
+      case (Cons(h, Nil()), right) => Cons(h, right)
+      case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1, append(t1, Cons(h2, t2)))
       
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
