@@ -41,7 +41,7 @@ object Lists extends App :
       case _ => Nil()
 
     def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
-      case Cons(h, _) => flatMap(l1)(e => if pred(e) then Cons(e, Nil()) else Nil())
+      case Cons(_, _) => flatMap(l1)(e => if pred(e) then Cons(e, Nil()) else Nil())
       case _ => Nil()
       
     @tailrec
