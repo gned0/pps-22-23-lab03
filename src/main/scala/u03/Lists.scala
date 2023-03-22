@@ -20,9 +20,9 @@ object Lists extends App :
     // Svolto con Pirazzoli
     @tailrec
     def drop[A](l: List[A], n: Int): List[A] = (l, n) match
-      case (Nil(), _) => Nil()
       case (Cons(_, t), 1) => t
       case (Cons(_, t), n) => drop(t, n-1)
+      case _ => Nil()
 
     // Svolto con Pirazzoli
     def append[A](left: List[A], right: List[A]): List[A] = (left, right) match
@@ -57,21 +57,9 @@ object Lists extends App :
       )
     @tailrec
     def foldLeft[A](l: List[A])(d: A)(f: (A, A) => A): A = l match
-      case Cons(h, Nil()) => f(d, h)
-      case Cons(h1, Cons(h2, t)) => foldLeft(Cons(h2, t))(f(d, h1))(f)
+      case Cons(h, t) => foldLeft(t)(f(d, h))(f)
       case _ => d
 
     def foldRight[A](l: List[A])(d: A)(f: (A, A) => A): A = l match
-      case Cons(h, Nil()) => f(h, d)
-      case Cons(h1, Cons(h2, t)) => f(h1, foldRight(Cons(h2, t))(d)(f))
+      case Cons(h, t) => f(h, foldRight(t)(d)(f))
       case _ => d
-
-
-  val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
-  println(List.sum(l)) // 60
-
-  import List.*
-
-  println(sum(map(filter(l)(_ >= 20))(_ + 1))) // 21+31 = 52
-  val teachers = Cons(Teacher("Viroli", "PPS"), Cons(Teacher("Ricci", "PCD"), Nil()))
-  println(retrieveCourses(teachers))
