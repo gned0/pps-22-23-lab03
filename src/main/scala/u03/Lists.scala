@@ -1,6 +1,8 @@
 package u03
 
 import scala.annotation.tailrec
+import u02.Modules.*
+import u02.Modules.Person.Teacher
 
 object Lists extends App :
 
@@ -41,12 +43,25 @@ object Lists extends App :
     def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
       case Cons(h, _) => flatMap(l1)(e => if pred(e) then Cons(e, Nil()) else Nil())
       case _ => Nil()
-
+      
+    @tailrec
     def max(l: List[Int]): Option[Int] = l match
       case Cons(h, Nil()) => Some(h)
       case Cons(h1, Cons(h2, t)) if h1 < h2 => max(Cons(h2, t))
       case Cons(h1, Cons(h2, t)) if h1 > h2 => max(Cons(h1, t))
       case _ => None
+
+    def retrieveCourses(l: List[Person]): List[String] =
+      map(l)(_ match
+        case Teacher(_, c) => c
+      )
+    @tailrec
+    def foldLeft[A](l: List[A])(d: A)(f: (A, A) => A): A = l match
+      case Cons(h, Nil()) => f(d, h)
+      case Cons(h1, Cons(h2, t)) => foldLeft(Cons(h2, t))(f(d, h1))(f)
+      case _ => d
+
+    def foldRight[A](l: List[A])(d: A)(f: (A, A) => A): A = ???
 
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
@@ -55,3 +70,5 @@ object Lists extends App :
   import List.*
 
   println(sum(map(filter(l)(_ >= 20))(_ + 1))) // 21+31 = 52
+  val teachers = Cons(Teacher("Viroli", "PPS"), Cons(Teacher("Ricci", "PCD"), Nil()))
+  println(retrieveCourses(teachers))

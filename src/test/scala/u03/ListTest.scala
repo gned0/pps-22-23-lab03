@@ -2,6 +2,7 @@ package u03
 
 import org.junit.*
 import org.junit.Assert.*
+import u02.Modules.Person.*
 import Lists.*
 
 
@@ -11,6 +12,7 @@ class ListTest:
   import List.*
 
   val l: List[Int] = Cons(10, Cons(20, Cons(30, Nil())))
+  val foldList: List[Int] = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
 
   @Test def testSum(): Unit =
     assertEquals(0, sum(Nil()))
@@ -42,4 +44,15 @@ class ListTest:
     assertEquals(Some(25), max(Cons(10, Cons(25, Cons(20, Nil())))))
     assertEquals(Some(30), max(Cons(10, Cons(20, Cons(30, Nil())))))
     assertEquals(None, max(Nil()))
+
+  @Test def testCourses(): Unit =
+    val teachers = Cons(Teacher("Viroli", "PPS"), Cons(Teacher("Ricci", "PCD"), Nil()))
+    assertEquals(Cons("PPS", Cons("PCD", Nil())), retrieveCourses(teachers))
+
+  @Test def testLeftFold(): Unit =
+    assertEquals(-16, foldLeft(foldList)(0)(_ - _))
+
+  @Test def testRightFold(): Unit =
+    assertEquals(-8, foldRight(foldList)(0)(_ - _))  
+
 
