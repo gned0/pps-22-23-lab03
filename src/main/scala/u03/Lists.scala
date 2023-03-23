@@ -41,8 +41,10 @@ object Lists extends App :
       case _ => Nil()
 
     def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
-      case Cons(_, _) => flatMap(l1)(e => if pred(e) then Cons(e, Nil()) else Nil())
-      case _ => Nil()
+      case Cons(_, _) => flatMap(l1)(e => pred(e) match
+        case true => Cons(e, Nil())
+        case _ => Nil()
+      )
       
     @tailrec
     def max(l: List[Int]): Option[Int] = l match
@@ -52,8 +54,9 @@ object Lists extends App :
       case _ => None
 
     def retrieveCourses(l: List[Person]): List[String] =
-      map(l)(_ match
-        case Teacher(_, c) => c
+      flatMap(l)(_ match
+        case Teacher(_, c) => Cons(c, Nil())
+        case _ => Nil()
       )
     @tailrec
     def foldLeft[A](l: List[A])(d: A)(f: (A, A) => A): A = l match
