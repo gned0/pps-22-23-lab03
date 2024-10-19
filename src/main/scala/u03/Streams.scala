@@ -1,5 +1,7 @@
 package u03
 
+import scala.annotation.tailrec
+
 object Streams extends App :
 
   import Lists.*
@@ -37,11 +39,21 @@ object Streams extends App :
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
-    def drop[A](stream: Stream[A])(n: Int): Stream[A] = ???
-    
-    def constant[A](c: A): Stream[A] = ???
-    
-    def fibs(): Stream[Int] = ???
+    // Ex. 5
+    @tailrec
+    def drop[A](stream: Stream[A])(n: Int): Stream[A] = (stream, n) match
+      case (Cons(_, tail), n) if n > 0 => drop(tail())(n - 1)
+      case _ => stream
+
+    // Ex. 6
+    def constant[A](c: A): Stream[A] =
+      cons(c, constant(c))
+
+    // Ex. 7
+    def fibs(): Stream[Int] =
+      def fibsRec(a: Int, b: Int): Stream[Int] =
+        cons(a, fibsRec(b, a + b))
+      fibsRec(0, 1)
 
   end Stream
 
