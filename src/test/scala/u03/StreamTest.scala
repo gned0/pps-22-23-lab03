@@ -17,5 +17,5 @@ class StreamTest:
 
   @Test def testDrop(): Unit =
     val stream = take(constant(5))(3)
-    assertEquals(List.Cons(5, List.Cons(5, List.Cons(5, List.Nil()))), stream)
+    assertEquals(List.Cons(5, List.Cons(5, List.Cons(5, List.Nil()))), toList(stream))
 
