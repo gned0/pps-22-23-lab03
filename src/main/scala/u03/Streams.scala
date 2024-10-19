@@ -37,6 +37,12 @@ object Streams extends App :
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
+    def drop[A](stream: Stream[A])(n: Int): Stream[A] = ???
+    
+    def constant[A](c: A): Stream[A] = ???
+    
+    def fibs(): Stream[Int] = ???
+
   end Stream
 
   // var simplifies chaining of functions a bit..
